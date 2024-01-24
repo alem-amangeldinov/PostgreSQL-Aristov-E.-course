@@ -1,1 +1,1 @@
-#### PostgreSQL-Aristov-E.-course
+#### PostgreSQL Aristov Eugene course
