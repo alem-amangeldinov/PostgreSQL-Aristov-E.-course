@@ -45,7 +45,7 @@ psql < /dump_path/thai.sql
 ```
 
 ---
-#### Banchmarking
+#### Benchmarking
 
 
 ```
@@ -54,7 +54,7 @@ psql < /dump_path/thai.sql
 ```
 
 ```
-# Custom pgbench banchmark loading is 80% write / 20% read:
+# Custom pgbench benchmark loading is 80% write / 20% read:
 https://www.postgresql.org/docs/current/pgbench.html
 ```
 
