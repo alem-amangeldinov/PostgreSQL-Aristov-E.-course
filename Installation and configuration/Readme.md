@@ -138,6 +138,12 @@ tps = 18813.853639
 ![sd](Screenshot_4.png)
 ![sd](Screenshot_5.png)
 
+### Conclusion
+
+```
+turning off Durability property (D from ACID) gives a noticeable increase in recording processes &&&&&&
+```
+
 
 
 
