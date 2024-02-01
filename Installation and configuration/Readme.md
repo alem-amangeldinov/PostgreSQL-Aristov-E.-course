@@ -48,6 +48,31 @@ chown postgres:postgres /db
 psql -c "create database thai"
 psql < /dump_path/thai.sql
 ```
+### Configuration
+
+#### PostgreSQL Basic values to settings
+
+```
+shared_buffers
+max_connections
+effectiv_cache_size
+work_mem
+maintenance_work_mem
+wal_buffers
+min_wal_size / max_wal_size
+checkpoint_timeout
+synchronous_commit
+random_page_coas
+effective_io_concurrency
+max_worker_processes / max_parallel_workers_per_gather
+max_parallel_maintenance_workers / max_parallel_workers
+```
+
+#### How to calculate memory usage
+
+```
+Total Server RAM > 2 Gb + Shared buffers + max_connections * (work_mem + temp_buffers) + maintance_parallel_workers * maintance_work_mem
+```
 
 ---
 ### Benchmarking
