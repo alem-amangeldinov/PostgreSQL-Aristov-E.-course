@@ -144,6 +144,18 @@ tps = 18813.853639
 turning off Durability property (D from ACID) gives a noticeable increase in recording processes &&&&&&
 ```
 
+### Addtinal information:
+
+```
+there is able to change synchronous_commit value for a certain user, database and all PG cluster:
+
+ALTER USER user_name SET synchronous_commit = off;
+ALTER DATABASE database_name SET synchronous_commit = off;
+ALTER SYSTEM SET synchronous_commit = off;
+
+  
+```
+
 
 
 
