@@ -1,33 +1,19 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Replication
 
 
 
-
-####open PG port and check open ports on firewall (if PG port is not available)
+#### open PG port and check open ports on firewall (if PG port is not available)
 ```
 firewall-cmd --permanent --zone=public --add-port=5432/tcp && firewall-cmd --reload && firewall-cmd --list-all
 ```
 
-####Create user with REPLICATION permission:
+#### Create user with REPLICATION permission:
 ```
 psql -c "CREATE USER replica WITH REPLICATION ENCRYPTED PASSWORD 'pass@123';"
 ```
 
 
-####create replication slot:
+#### create replication slot:
 ```
 create replication slot:
 psql -c "SELECT * FROM pg_create_physical_replication_slot('my_slot');"
@@ -39,7 +25,7 @@ drop replication slot:
 psql -c "select pg_drop_replication_slot('my_slot');"
 ```
 
-####add the created user in pg_hba file:
+#### add the created user in pg_hba file:
 ```
 # TYPE  DATABASE        USER            ADDRESS                 METHOD
 host      all           replica     192.168.56.222/16         scram-sha-256
@@ -47,7 +33,7 @@ host      all           replica     192.168.56.222/16         scram-sha-256
 
 
 
-####set listen_address postgresql.conf file:
+#### set listen_address postgresql.conf file:
 
 ```
 listen_addresses = '*'
@@ -86,7 +72,7 @@ solution:
  chmod 0700 /db/repl
 ```
 
-####create sh file and run pg_basebackup with nohup
+#### create sh file and run pg_basebackup with nohup
 
 ```
 cat > ~/basebackup.sh << EOL
