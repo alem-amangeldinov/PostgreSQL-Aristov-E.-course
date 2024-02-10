@@ -1,8 +1,10 @@
+
 # Replication
 
 
 
-#### open PG port and check open ports on firewall (if PG port is not available)
+
+#### Open PG port and check open ports on firewall (if PG port is not available)
 ```
 firewall-cmd --permanent --zone=public --add-port=5432/tcp && firewall-cmd --reload && firewall-cmd --list-all
 ```
@@ -25,20 +27,29 @@ drop replication slot:
 psql -c "select pg_drop_replication_slot('my_slot');"
 ```
 
-#### add the created user in pg_hba file:
+#### Add the created user in pg_hba file:
 ```
 # TYPE  DATABASE        USER            ADDRESS                 METHOD
-host      all           replica     192.168.56.222/16         scram-sha-256
+host    replication     replica       replica_host            scram-sha-256
+host    replication     replica     192.168.56.222/16         scram-sha-256
+
+
+#to enter to master without password should save replica user password on pgpass  or use Trust authentication method
+```
+
+#### Reload conf and pg_hba:
+```
+psql -c "select pg_reload_conf();"
 ```
 
 
 
-#### set listen_address postgresql.conf file:
+
+
+#### Check PG settings file:
 
 ```
-listen_addresses = '*'
-or 
-only add replica host
+psql -c "show listen_addresses;" && psql -c "show max_wal_senders;" && psql -c "show hot_standby;" && psql -c "show wal_level;"
 ```
 
 
@@ -55,14 +66,14 @@ only add replica host
 ```
 
 
-#### start cluster after pg_basebackup is complited
+#### Start cluster after pg_basebackup is complited
 
 
 ```
 /usr/pgsql-14/bin/pg_ctl start -D /db/repl/
 ```
 ```
-error on start cluster:
+Possible error on start cluster:
 
 /usr/pgsql-14/bin/pg_ctl start -D /db/repl/
 waiting for server to start....2024-02-05 09:35:00.563 GMT [20078] FATAL:  data directory "/db/repl" has invalid permissions
@@ -72,7 +83,7 @@ solution:
  chmod 0700 /db/repl
 ```
 
-#### create sh file and run pg_basebackup with nohup
+#### Create sh file and run pg_basebackup with nohup
 
 ```
 cat > ~/basebackup.sh << EOL
@@ -87,12 +98,31 @@ date
 EOL
 ```
 
+
+##### clean nohup.out file:
 ```
-run sh file:
+echo '' > nohup.out
+```
+
+
+##### run sh file:
+```
 nohup sh ~/basebackup.sh &
+```
 
-
-check:
+##### check:
+```
 tail -f nohup.out
 ```
 
+####Checking replication status
+
+##### on master
+```
+select * from pg_stat_replication\gx
+```
+
+##### on replica
+```
+select * from pg_stat_wal_receiver\gx
+```
