@@ -115,7 +115,7 @@ nohup sh ~/basebackup.sh &
 tail -f nohup.out
 ```
 
-####Checking replication status
+#### Checking replication status
 
 ##### on master
 ```
